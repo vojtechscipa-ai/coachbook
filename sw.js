@@ -1,4 +1,4 @@
-const CACHE = 'coachbook-v8';
+const CACHE = 'coachbook-v9';
 const APP_FILES = ['./', './index.html', './manifest.webmanifest', './icon.svg'];
 
 self.addEventListener('install', event => {
