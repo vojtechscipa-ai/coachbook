@@ -56,5 +56,35 @@ function importData(e){let file=e.target.files[0];if(!file)return;let reader=new
 function clearAll(){if(!confirm('Opravdu trvale smazat všechna data CoachBook?'))return;if(!confirm('Poslední kontrola: opravdu pokračovat?'))return;db=blank();save();showView('home');toast('Data smazána')}
 function renderAll(){renderHome();if(document.getElementById('team').classList.contains('active'))renderPlayers();if(document.getElementById('attendance').classList.contains('active'))renderAttendance();if(document.getElementById('stats').classList.contains('active'))renderStats()}
 renderAll();
-if('serviceWorker' in navigator && location.protocol.startsWith('http'))window.addEventListener('load',()=>navigator.serviceWorker.register('./sw.js').catch(()=>{}));
+if ('serviceWorker' in navigator && location.protocol.startsWith('http')) {
+  let refreshingForUpdate = false;
+  navigator.serviceWorker.addEventListener('controllerchange', () => {
+    if (refreshingForUpdate) return;
+    refreshingForUpdate = true;
+    location.reload();
+  });
+  window.addEventListener('load', async () => {
+    try {
+      const registration = await navigator.serviceWorker.register('./sw.js', { updateViaCache: 'none' });
+      // Ask GitHub Pages for the newest worker whenever CoachBook is opened.
+      await registration.update();
+      registration.addEventListener('updatefound', () => {
+        const installing = registration.installing;
+        if (!installing) return;
+        installing.addEventListener('statechange', () => {
+          if (installing.state === 'installed' && navigator.serviceWorker.controller) {
+            // The new worker calls skipWaiting() and takes control; controllerchange reloads the app.
+          }
+        });
+      });
+    } catch (error) {
+      console.warn('CoachBook update check failed:', error);
+    }
+  });
+  document.addEventListener('visibilitychange', () => {
+    if (document.visibilityState === 'visible' && navigator.serviceWorker.controller) {
+      navigator.serviceWorker.getRegistration('./').then(registration => registration && registration.update()).catch(() => {});
+    }
+  });
+}
 </script></body></html>
