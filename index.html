@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="cs">
 <head>
-<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#101820"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black"><meta name="apple-mobile-web-app-title" content="CoachBook"><link rel="manifest" href="manifest.webmanifest"><title>CoachBook 2.5.1</title>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#101820"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black"><meta name="apple-mobile-web-app-title" content="CoachBook"><link rel="manifest" href="manifest.webmanifest"><title>CoachBook 2.5.2</title>
 <style>
 :root{color-scheme:dark;--bg:#101820;--panel:#1b2933;--panel2:#243640;--line:#344650;--text:#edf3f6;--muted:#9aabb6;--green:#65d69a;--red:#ff7777;--amber:#f4c66b}*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font:15px -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;padding-bottom:calc(82px + env(safe-area-inset-bottom))}button,input,select,textarea{font:inherit}button{cursor:pointer}.app{max-width:760px;margin:auto;padding:calc(env(safe-area-inset-top) + 12px) 16px 24px}.top{display:flex;position:relative;z-index:1;isolation:isolate;justify-content:space-between;align-items:center;gap:10px;margin:0 0 20px;padding:8px 0 12px;background:var(--bg);filter:none!important;backdrop-filter:none!important;-webkit-backdrop-filter:none!important}.brand{font-size:23px;font-weight:850;letter-spacing:1.5px}.sub{font-size:10px;color:var(--muted);letter-spacing:1.4px;margin-top:3px}.season{appearance:none;-webkit-appearance:none;background:#101820;border:1px solid var(--line);border-radius:20px;padding:7px 11px;color:var(--green);font-size:11px;font-weight:700}.panel{background:var(--panel);border:1px solid #293b46;border-radius:17px;padding:16px;margin-bottom:13px}.hero{background:linear-gradient(135deg,#203640,#17252e);padding:19px}.eyebrow{font-size:11px;color:var(--muted);font-weight:700;letter-spacing:1px;text-transform:uppercase}.teamname{font-size:25px;font-weight:800;margin:7px 0 3px}.muted{color:var(--muted)}.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;margin-top:17px}.stat{background:#263944;border-radius:12px;padding:12px}.stat b{font-size:24px;display:block}.stat span{font-size:11px;color:var(--muted)}.sectionhead{display:flex;align-items:center;justify-content:space-between;margin:22px 2px 11px}.sectionhead h2{font-size:17px;margin:0}.btn{border:0;border-radius:11px;background:var(--green);color:#10221a;font-weight:750;padding:11px 14px}.btn.secondary{background:var(--panel2);color:var(--text);border:1px solid var(--line)}.btn.danger{background:#492d33;color:#ffd9dc}.btn.small{padding:8px 10px;font-size:12px}.quick{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}.quick button{background:var(--panel);border:1px solid var(--line);color:var(--text);border-radius:14px;text-align:left;padding:15px;font-weight:700}.quick .ico{display:block;color:var(--green);font-size:21px;margin-bottom:8px}.nav{position:fixed;z-index:5;bottom:0;left:0;right:0;background:#131f27;backdrop-filter:none;-webkit-backdrop-filter:none;border-top:1px solid var(--line);padding:9px 8px calc(9px + env(safe-area-inset-bottom));display:flex;justify-content:space-around}.nav button{background:none;border:0;color:var(--muted);font-size:10px;display:flex;flex-direction:column;align-items:center;gap:4px;min-width:55px}.nav button span{font-size:20px}.nav button.active{color:var(--green)}.view{display:none}.view.active{display:block}.row{display:flex;align-items:center;gap:12px}.grow{flex:1;min-width:0}.avatar{width:44px;height:44px;border-radius:13px;background:#304651;display:grid;place-items:center;color:var(--green);font-weight:800;flex-shrink:0}.player{display:flex;align-items:center;gap:11px;padding:12px 0;border-bottom:1px solid var(--line)}.player:last-child{border:0}.playername{font-weight:700}.smallmuted{font-size:12px;color:var(--muted);margin-top:3px}.tag{font-size:10px;padding:5px 8px;border-radius:20px;background:#263e35;color:var(--green)}input,select,textarea{width:100%;background:#111d25;color:var(--text);border:1px solid var(--line);border-radius:10px;padding:12px;outline:none}textarea{min-height:85px;resize:vertical}label{display:block;color:var(--muted);font-size:12px;margin:12px 0 6px}.formgrid{display:grid;grid-template-columns:1fr 1fr;gap:10px}.formgrid>div{min-width:0}.formgrid input,.formgrid select{display:block;width:100%;max-width:100%;min-width:0}@media(max-width:520px){.formgrid{grid-template-columns:minmax(0,1fr)}}.actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:15px}.empty{text-align:center;color:var(--muted);padding:27px 12px}.search{margin-bottom:10px}.playerhead{display:flex;align-items:center;gap:13px;margin-bottom:15px}.bigavatar{width:65px;height:65px;border-radius:17px;background:#304651;display:grid;place-items:center;color:var(--green);font-size:23px;font-weight:800}.ratingrow{display:grid;grid-template-columns:1fr auto;align-items:center;gap:10px;padding:9px 0;border-bottom:1px solid var(--line)}.stars{display:flex;gap:3px}.stars button{border:0;background:none;color:#51636d;font-size:21px;padding:2px}.stars button.on{color:var(--amber)}.attrow{display:flex;align-items:center;justify-content:space-between;padding:11px 0;border-bottom:1px solid var(--line);gap:8px}.seg{display:flex;gap:4px}.seg button{border:1px solid var(--line);background:#15232b;color:var(--muted);border-radius:8px;padding:7px 9px;font-size:11px}.seg button.sel{background:#244c3b;border-color:#397b5c;color:#a4f1c4}.notice{background:#302d22;color:#f3d99c;border:1px solid #5b5033;border-radius:12px;padding:12px;font-size:12px;line-height:1.5}.hidden{display:none!important}.back{background:none;border:0;color:var(--green);padding:4px 0 14px;font-weight:700}.divider{height:1px;background:var(--line);margin:14px 0}.toast{position:fixed;z-index:9;bottom:90px;left:50%;transform:translateX(-50%);background:#e5fff0;color:#173326;padding:11px 16px;border-radius:30px;font-weight:700;box-shadow:0 5px 25px #0008;display:none;white-space:nowrap}.modalbg{position:fixed;inset:0;background:#0009;z-index:8;display:none;align-items:flex-end;justify-content:center}.modalbg.show{display:flex}.modal{background:var(--panel);border:1px solid var(--line);border-radius:20px 20px 0 0;padding:20px;width:100%;max-width:650px;max-height:90vh;overflow:auto;padding-bottom:calc(22px + env(safe-area-inset-bottom))}.modal h2{margin:0 0 10px}.right{margin-left:auto}@media(min-width:600px){.modalbg{align-items:center}.modal{border-radius:20px}}
 
@@ -418,6 +418,93 @@ input,select,textarea{border-radius:14px!important;border-color:#344e5a!importan
   box-sizing: border-box;
 }
 </style>
+
+<style>
+/* CoachBook 2.5.2: sjednocení přehlednosti, hierarchie a ovládacích stavů */
+:root{--focus:#8ce9b8;--surface-raised:#213944;--surface-soft:#142630;--danger-soft:#492d33}
+html{scroll-behavior:smooth;scroll-padding-top:18px}
+body{line-height:1.48;-webkit-tap-highlight-color:transparent}
+button{touch-action:manipulation}
+button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible,[role="button"]:focus-visible,summary:focus-visible{outline:2px solid var(--focus);outline-offset:3px}
+.sectionhead{gap:10px;flex-wrap:wrap;margin:27px 2px 13px}
+.sectionhead h2{font-size:clamp(17px,4.5vw,20px);line-height:1.25;font-weight:820}
+.sectionhead h3{font-size:16px;line-height:1.3}
+.panel{padding:clamp(14px,4vw,19px);margin-bottom:14px}
+.panel h3,.panel h4{line-height:1.3;letter-spacing:-.2px}
+.eyebrow,.cb-profile-kicker{letter-spacing:1.15px}
+.muted,.smallmuted{line-height:1.5}
+.btn{min-height:42px;display:inline-flex;align-items:center;justify-content:center;gap:6px;line-height:1.25;white-space:normal;text-align:center}
+.btn.small{min-height:36px}
+.btn:active,.quick button:active,.nav button:active{transform:scale(.975)}
+.btn.danger{border:1px solid #8b4850;background:linear-gradient(145deg,#59343b,#432a31);color:#ffdadd}
+input,select,textarea{min-height:46px;line-height:1.4}
+textarea{min-height:105px}
+input::placeholder,textarea::placeholder{color:#8297a2;opacity:1}
+label{line-height:1.35}
+.quick{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.quick button{min-width:0;min-height:100px;display:flex;flex-direction:column;align-items:flex-start;justify-content:center;overflow-wrap:anywhere}
+.quick .ico{line-height:1}
+.stats{gap:8px}
+.stat{min-width:0;overflow-wrap:anywhere}
+.stat b{font-variant-numeric:tabular-nums;line-height:1.15}
+.stat span{line-height:1.35}
+.player{gap:10px;min-width:0}
+.playername{line-height:1.3;overflow-wrap:anywhere}
+.player .tag{flex-shrink:0}
+.ratingrow{gap:8px}
+.ratingrow>span:first-child{min-width:0;overflow-wrap:anywhere}
+.stars button{min-width:30px;min-height:36px}
+.attrow{flex-wrap:wrap}
+.attendance-status{min-width:84px}
+.notice{line-height:1.55}
+.empty{line-height:1.55;border:1px dashed #3b5662;border-radius:15px;background:#14263066}
+.actions{align-items:center}
+.actions .btn{max-width:100%}
+.more-group{border:1px solid #304955;border-radius:17px;background:linear-gradient(145deg,#1b303b,#14242d);margin:0 0 11px;overflow:hidden}
+.more-group>summary{list-style:none;cursor:pointer;min-height:58px;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:15px 17px;font-weight:780}
+.more-group>summary::-webkit-details-marker{display:none}
+.more-group>summary:after{content:'⌄';color:var(--green);font-size:20px;transition:transform .18s}
+.more-group[open]>summary:after{transform:rotate(180deg)}
+.more-group-body{padding:0 16px 17px;border-top:1px solid #304955}
+.more-group-body>p:first-child{margin-top:13px}
+.calendar-event,.recent-activity-card,.upcoming-card{min-width:0;overflow-wrap:anywhere}
+.calendar-event-title{font-weight:800;line-height:1.35}
+.calendar-event-meta{line-height:1.45}
+.cb-chart{padding:15px;overflow:hidden}
+.cb-bar-row{min-width:0}
+.cb-bar-row>span:first-child{overflow-wrap:anywhere}
+.cb-profile-bar{min-width:0}
+.cb-profile-bar>span:first-child{overflow-wrap:anywhere}
+.report-table{display:block;max-width:100%;overflow-x:auto;-webkit-overflow-scrolling:touch;white-space:nowrap}
+.report-table th{color:#c8d7de;font-weight:800}
+.report-player-card{overflow:hidden}
+#profileContent .panel{overflow:hidden}
+#coachInsights .panel{overflow:hidden}
+#teamDashboard .panel{overflow:hidden}
+#recentActivity{overflow:hidden}
+.nav{padding-left:max(8px,env(safe-area-inset-left));padding-right:max(8px,env(safe-area-inset-right))}
+.nav button{min-width:0;flex:1;max-width:92px;min-height:54px;font-weight:650}
+.nav button span{line-height:1.1}
+.toast{max-width:calc(100vw - 28px);white-space:normal;text-align:center;line-height:1.35}
+.modal{padding-top:24px}
+.modal-close{width:38px;height:38px}
+@media(max-width:390px){
+ .app{padding-left:13px;padding-right:13px}
+ .quick button{min-height:94px;padding:13px;font-size:14px}
+ .stat{padding:10px 8px}
+ .stat b{font-size:21px}
+ .stat span{font-size:10px}
+ .sectionhead{margin-top:23px}
+ .nav button{font-size:10px}
+ .nav button span{font-size:19px}
+}
+@media(min-width:600px){
+ .app{padding-left:22px;padding-right:22px}
+ .quick{grid-template-columns:repeat(3,minmax(0,1fr))}
+ .quick button{min-height:112px}
+}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+</style>
 </head>
 <body><main class="app">
 <header class="top"><div class="brand-wrap"><button class="global-back" id="globalBack" type="button" disabled onclick="backView()" aria-label="Zpět" title="Zpět">‹</button><div><div class="brand">COACHBOOK</div><div class="sub">FOOTBALL TEAM MANAGEMENT</div></div></div><button class="season" id="seasonBadge" onclick="openSeasonPicker()">SEZÓNA 26/27</button></header>
@@ -438,7 +525,7 @@ input,select,textarea{border-radius:14px!important;border-color:#344e5a!importan
 <details class="more-group"><summary>Nastavení týmu</summary><div class="more-group-body"><label>Název týmu</label><input id="teamNameInput" placeholder="Např. MFK Vyškov"><label>Kategorie / ročník</label><input id="teamCategoryInput" placeholder="Např. U11 · ročník 2015"><button class="btn" style="margin-top:13px" onclick="saveTeam()">Uložit tým</button></div></details>
 <details class="more-group"><summary>Zálohování a obnova</summary><div class="more-group-body"><p class="muted" style="font-size:13px">Exportuj všechna data do souboru JSON. Soubor si ulož bezpečně, například do iCloud Drive.</p><div class="actions"><button class="btn" onclick="exportData()">Exportovat zálohu</button><button class="btn secondary" onclick="document.getElementById('importFile').click()">Obnovit ze zálohy</button><input id="importFile" class="hidden" type="file" accept="application/json" onchange="importData(event)"></div></div></details>
 <div class="panel danger-zone"><h3>Správa dat</h3><p class="muted" style="font-size:13px">Smazání všech dat je nevratné. Nejdřív si vytvoř zálohu.</p><button class="btn danger" onclick="clearAll()">Smazat všechna data</button></div>
-<div class="smallmuted">CoachBook 2.5.1 · Data se ukládají lokálně.</div></section>
+<div class="smallmuted">CoachBook 2.5.2 · Data se ukládají lokálně.</div></section>
 <section id="profile" class="view"><div id="profileContent"></div></section>
 </main>
 <div id="printReport" style="display:none"></div>
