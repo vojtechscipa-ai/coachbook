@@ -281,22 +281,14 @@ html,body{overscroll-behavior-y:none}
   padding-bottom:calc(9px + env(safe-area-inset-bottom))!important;
 }
 
-/* CoachBook 2.1: iOS-like screen transitions; bottom navigation stays stationary */
-.app.cb-fallback-in{animation:cb-fallback-slide 320ms cubic-bezier(.22,.61,.36,1) both}
-@keyframes cb-fallback-slide{from{opacity:.78;transform:translateX(14px)}to{opacity:1;transform:translateX(0)}}
-.app{view-transition-name:coachbook-screen}
-::view-transition-group(coachbook-screen){animation-duration:320ms;}
-::view-transition-old(coachbook-screen){animation:cb-screen-out 320ms cubic-bezier(.22,.61,.36,1) both;}
-::view-transition-new(coachbook-screen){animation:cb-screen-in 320ms cubic-bezier(.22,.61,.36,1) both;}
-html[data-nav-direction="back"]::view-transition-old(coachbook-screen){animation-name:cb-screen-out-back;}
-html[data-nav-direction="back"]::view-transition-new(coachbook-screen){animation-name:cb-screen-in-back;}
-@keyframes cb-screen-out{to{opacity:.72;transform:translateX(-7%) scale(.985)}}
-@keyframes cb-screen-in{from{opacity:.72;transform:translateX(18%)}to{opacity:1;transform:translateX(0)}}
-@keyframes cb-screen-out-back{to{opacity:.72;transform:translateX(7%) scale(.985)}}
-@keyframes cb-screen-in-back{from{opacity:.72;transform:translateX(-18%)}to{opacity:1;transform:translateX(0)}}
-@media(prefers-reduced-motion:reduce){::view-transition-group(coachbook-screen){animation-duration:1ms!important}::view-transition-old(coachbook-screen),::view-transition-new(coachbook-screen){animation-duration:1ms!important}}
+/* CoachBook 2.1.1.1: simple content-only navigation transition; no full-screen snapshots */
+.view.active{animation:cb-view-enter 220ms cubic-bezier(.2,.7,.25,1) both}
+@keyframes cb-view-enter{from{opacity:.72;transform:translateX(9px)}to{opacity:1;transform:translateX(0)}}
+html[data-nav-direction="back"] .view.active{animation-name:cb-view-enter-back}
+@keyframes cb-view-enter-back{from{opacity:.72;transform:translateX(-9px)}to{opacity:1;transform:translateX(0)}}
+@media(prefers-reduced-motion:reduce){.view.active{animation:none!important}}
 
-/* CoachBook 2.1: team calendar */
+/* CoachBook 2.1.1: team calendar */
 .calendar-toolbar{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:12px}.calendar-month{font-size:18px;font-weight:800;text-transform:capitalize}.calendar-grid{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:5px}.calendar-weekday{text-align:center;color:var(--muted);font-size:11px;padding:5px 0}.calendar-day{min-height:58px;border:1px solid var(--line);border-radius:10px;background:#14232c;color:var(--text);padding:6px 3px;text-align:center;display:flex;flex-direction:column;align-items:center;gap:5px}.calendar-day.outside{opacity:.35}.calendar-day.selected{outline:2px solid var(--green);background:#203a35}.calendar-day.today{border-color:var(--green)}.calendar-daynum{font-size:13px;font-weight:700}.calendar-dots{display:flex;gap:3px;min-height:6px;justify-content:center}.calendar-dot{width:6px;height:6px;border-radius:50%;display:inline-block}.calendar-dot.training{background:#60d69c}.calendar-dot.match{background:#f4bd59}.calendar-legend{display:flex;gap:14px;flex-wrap:wrap;color:var(--muted);font-size:12px;margin:12px 0}.calendar-legend span{display:flex;align-items:center;gap:6px}.calendar-event{border:1px solid var(--line);border-left:4px solid #60d69c;border-radius:12px;background:#1b2b35;padding:12px;margin:9px 0}.calendar-event.match{border-left-color:#f4bd59}.calendar-event-head{display:flex;justify-content:space-between;gap:10px;align-items:flex-start}.calendar-event-title{font-weight:800}.calendar-event-meta{font-size:12px;color:var(--muted);margin-top:5px}.calendar-event-actions{display:flex;gap:7px;flex-wrap:wrap;margin-top:10px}.calendar-empty{padding:18px;text-align:center;color:var(--muted);border:1px dashed var(--line);border-radius:12px}.calendar-day:focus-visible{outline:2px solid var(--green);outline-offset:2px}
 </style></head>
 <body><main class="app">
@@ -345,7 +337,7 @@ function toast(s){let t=document.getElementById('toast');t.textContent=s;t.style
 let viewHistory=[];let forwardHistory=[];let currentView='home';let viewScrollPositions={};let teamRosterExpanded=false;let clearTeamSearchOnReturn=false;
 function updateBackButton(){let b=document.getElementById('globalBack');if(b){b.disabled=viewHistory.length===0;b.style.visibility='visible'}}
 function applyViewChange(v,options={}){if(!document.getElementById(v))return false;const changing=v!==currentView;if(changing&&currentView!=='more')viewScrollPositions[currentView]=window.scrollY||document.documentElement.scrollTop||0;if(v==='team'&&currentView==='profile'&&clearTeamSearchOnReturn){let input=document.getElementById('searchPlayers');if(input)input.value='';clearTeamSearchOnReturn=false;viewScrollPositions.team=0}if(changing&&!options.noHistory){viewHistory.push(currentView);forwardHistory=[];}currentView=v;document.querySelectorAll('.view').forEach(x=>x.classList.remove('active'));document.getElementById(v).classList.add('active');document.querySelectorAll('.nav button').forEach(x=>x.classList.toggle('active',x.dataset.view===(v==='profile'?'team':v)));if(v==='team'){syncRosterUI();renderPlayers()}if(v==='attendance')renderAttendance();if(v==='calendar')renderCalendar();if(v==='matchReports')renderMatchReports();if(v==='plans')renderPlans();if(v==='stats')renderStats();if(v==='more'){teamNameInput.value=db.team.name;teamCategoryInput.value=db.team.category}if(v==='home')renderHome();updateBackButton();if(changing){const target=v==='more'?0:(viewScrollPositions[v]||0);requestAnimationFrame(()=>window.scrollTo(0,target))}return changing}
-function showView(v,options={}){if(!document.getElementById(v))return;if(v===currentView){applyViewChange(v,options);return}const direction=options.direction||(options.noHistory?'back':'forward');document.documentElement.dataset.navDirection=direction;const run=()=>applyViewChange(v,options);if(document.startViewTransition&&!window.matchMedia('(prefers-reduced-motion: reduce)').matches){document.startViewTransition(run)}else{run();const app=document.querySelector('.app');if(app){app.classList.remove('cb-fallback-in');void app.offsetWidth;app.classList.add('cb-fallback-in');setTimeout(()=>app.classList.remove('cb-fallback-in'),340)}}}
+function showView(v,options={}){if(!document.getElementById(v))return;document.documentElement.dataset.navDirection=options.direction||(options.noHistory?'back':'forward');applyViewChange(v,options)}
 function backView(){if(!viewHistory.length)return;forwardHistory.push(currentView);let previous=viewHistory.pop();showView(previous,{noHistory:true,direction:'back'});updateBackButton()}
 function forwardView(){if(!forwardHistory.length)return;viewHistory.push(currentView);let next=forwardHistory.pop();showView(next,{noHistory:true,direction:'forward'});updateBackButton()}
 function navigateBySwipe(direction){if(document.getElementById('modalBg')?.classList.contains('show'))return;if(direction==='back')backView();else forwardView()}
