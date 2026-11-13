@@ -288,9 +288,58 @@ html[data-nav-direction="back"] .view.active{animation-name:cb-view-enter-back}
 @keyframes cb-view-enter-back{from{opacity:.72;transform:translateX(-9px)}to{opacity:1;transform:translateX(0)}}
 @media(prefers-reduced-motion:reduce){.view.active{animation:none!important}}
 
-/* CoachBook 2.1.1: team calendar */
+/* CoachBook 2.1.2: team calendar */
 .calendar-toolbar{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:12px}.calendar-month{font-size:18px;font-weight:800;text-transform:capitalize}.calendar-grid{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:5px}.calendar-weekday{text-align:center;color:var(--muted);font-size:11px;padding:5px 0}.calendar-day{min-height:58px;border:1px solid var(--line);border-radius:10px;background:#14232c;color:var(--text);padding:6px 3px;text-align:center;display:flex;flex-direction:column;align-items:center;gap:5px}.calendar-day.outside{opacity:.35}.calendar-day.selected{outline:2px solid var(--green);background:#203a35}.calendar-day.today{border-color:var(--green)}.calendar-daynum{font-size:13px;font-weight:700}.calendar-dots{display:flex;gap:3px;min-height:6px;justify-content:center}.calendar-dot{width:6px;height:6px;border-radius:50%;display:inline-block}.calendar-dot.training{background:#60d69c}.calendar-dot.match{background:#f4bd59}.calendar-legend{display:flex;gap:14px;flex-wrap:wrap;color:var(--muted);font-size:12px;margin:12px 0}.calendar-legend span{display:flex;align-items:center;gap:6px}.calendar-event{border:1px solid var(--line);border-left:4px solid #60d69c;border-radius:12px;background:#1b2b35;padding:12px;margin:9px 0}.calendar-event.match{border-left-color:#f4bd59}.calendar-event-head{display:flex;justify-content:space-between;gap:10px;align-items:flex-start}.calendar-event-title{font-weight:800}.calendar-event-meta{font-size:12px;color:var(--muted);margin-top:5px}.calendar-event-actions{display:flex;gap:7px;flex-wrap:wrap;margin-top:10px}.calendar-empty{padding:18px;text-align:center;color:var(--muted);border:1px dashed var(--line);border-radius:12px}.calendar-day:focus-visible{outline:2px solid var(--green);outline-offset:2px}
-</style></head>
+</style><style>
+
+/* CoachBook 2.1.2: iPhone-safe calendar date/time fields */
+.modal form,
+.modal form > *,
+.modal form label {
+  min-width: 0;
+  max-width: 100%;
+}
+.modal form {
+  display: block;
+  width: 100%;
+  overflow: hidden;
+}
+.modal form input[type="date"],
+.modal form input[type="time"] {
+  display: block;
+  width: 100% !important;
+  min-width: 0 !important;
+  max-width: 100% !important;
+  min-inline-size: 0 !important;
+  max-inline-size: 100% !important;
+  box-sizing: border-box !important;
+  -webkit-appearance: none;
+  appearance: none;
+  padding-left: 10px;
+  padding-right: 10px;
+  font-size: 16px;
+}
+.modal form input[type="date"]::-webkit-date-and-time-value,
+.modal form input[type="time"]::-webkit-date-and-time-value {
+  min-width: 0;
+  text-align: left;
+}
+#calendarEventForm {
+  width: 100%;
+  min-width: 0;
+  max-width: 100%;
+  overflow: hidden;
+}
+#calendarEventForm input,
+#calendarEventForm select,
+#calendarEventForm textarea {
+  width: 100%;
+  min-width: 0;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+</style>
+</head>
 <body><main class="app">
 <header class="top"><div class="brand-wrap"><button class="global-back" id="globalBack" type="button" disabled onclick="backView()" aria-label="Zpět" title="Zpět">‹</button><div><div class="brand">COACHBOOK</div><div class="sub">FOOTBALL TEAM MANAGEMENT</div></div></div><button class="season" id="seasonBadge" onclick="openSeasonPicker()">SEZÓNA 26/27</button></header>
 <section id="home" class="view active">
