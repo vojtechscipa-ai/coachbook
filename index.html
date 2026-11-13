@@ -280,6 +280,21 @@ html,body{overscroll-behavior-y:none}
   min-height:calc(78px + env(safe-area-inset-bottom));
   padding-bottom:calc(9px + env(safe-area-inset-bottom))!important;
 }
+
+/* CoachBook 2.0.2: iOS-like screen transitions; bottom navigation stays stationary */
+.app.cb-fallback-in{animation:cb-fallback-slide 320ms cubic-bezier(.22,.61,.36,1) both}
+@keyframes cb-fallback-slide{from{opacity:.78;transform:translateX(14px)}to{opacity:1;transform:translateX(0)}}
+.app{view-transition-name:coachbook-screen}
+::view-transition-group(coachbook-screen){animation-duration:320ms;}
+::view-transition-old(coachbook-screen){animation:cb-screen-out 320ms cubic-bezier(.22,.61,.36,1) both;}
+::view-transition-new(coachbook-screen){animation:cb-screen-in 320ms cubic-bezier(.22,.61,.36,1) both;}
+html[data-nav-direction="back"]::view-transition-old(coachbook-screen){animation-name:cb-screen-out-back;}
+html[data-nav-direction="back"]::view-transition-new(coachbook-screen){animation-name:cb-screen-in-back;}
+@keyframes cb-screen-out{to{opacity:.72;transform:translateX(-7%) scale(.985)}}
+@keyframes cb-screen-in{from{opacity:.72;transform:translateX(18%)}to{opacity:1;transform:translateX(0)}}
+@keyframes cb-screen-out-back{to{opacity:.72;transform:translateX(7%) scale(.985)}}
+@keyframes cb-screen-in-back{from{opacity:.72;transform:translateX(-18%)}to{opacity:1;transform:translateX(0)}}
+@media(prefers-reduced-motion:reduce){::view-transition-group(coachbook-screen){animation-duration:1ms!important}::view-transition-old(coachbook-screen),::view-transition-new(coachbook-screen){animation-duration:1ms!important}}
 </style></head>
 <body><main class="app">
 <header class="top"><div class="brand-wrap"><button class="global-back" id="globalBack" type="button" disabled onclick="backView()" aria-label="Zpět" title="Zpět">‹</button><div><div class="brand">COACHBOOK</div><div class="sub">FOOTBALL TEAM MANAGEMENT</div></div></div><button class="season" id="seasonBadge" onclick="openSeasonPicker()">SEZÓNA 26/27</button></header>
@@ -325,9 +340,10 @@ function esc(s=''){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt
 function toast(s){let t=document.getElementById('toast');t.textContent=s;t.style.display='block';clearTimeout(toastTimer);toastTimer=setTimeout(()=>t.style.display='none',2200)}
 let viewHistory=[];let forwardHistory=[];let currentView='home';let viewScrollPositions={};let teamRosterExpanded=false;let clearTeamSearchOnReturn=false;
 function updateBackButton(){let b=document.getElementById('globalBack');if(b){b.disabled=viewHistory.length===0;b.style.visibility='visible'}}
-function showView(v,options={}){if(!document.getElementById(v))return;const changing=v!==currentView;if(changing&&currentView!=='more')viewScrollPositions[currentView]=window.scrollY||document.documentElement.scrollTop||0;if(v==='team'&&currentView==='profile'&&clearTeamSearchOnReturn){let input=document.getElementById('searchPlayers');if(input)input.value='';clearTeamSearchOnReturn=false;viewScrollPositions.team=0}if(changing&&!options.noHistory){viewHistory.push(currentView);forwardHistory=[];}currentView=v;document.querySelectorAll('.view').forEach(x=>x.classList.remove('active'));document.getElementById(v).classList.add('active');document.querySelectorAll('.nav button').forEach(x=>x.classList.toggle('active',x.dataset.view===(v==='profile'?'team':v)));if(v==='team'){syncRosterUI();renderPlayers()}if(v==='attendance')renderAttendance();if(v==='matchReports')renderMatchReports();if(v==='plans')renderPlans();if(v==='stats')renderStats();if(v==='more'){teamNameInput.value=db.team.name;teamCategoryInput.value=db.team.category}if(v==='home')renderHome();updateBackButton();if(changing){const target=v==='more'?0:(viewScrollPositions[v]||0);requestAnimationFrame(()=>window.scrollTo(0,target))}}
-function backView(){if(!viewHistory.length)return;forwardHistory.push(currentView);let previous=viewHistory.pop();showView(previous,{noHistory:true});updateBackButton()}
-function forwardView(){if(!forwardHistory.length)return;viewHistory.push(currentView);let next=forwardHistory.pop();showView(next,{noHistory:true});updateBackButton()}
+function applyViewChange(v,options={}){if(!document.getElementById(v))return false;const changing=v!==currentView;if(changing&&currentView!=='more')viewScrollPositions[currentView]=window.scrollY||document.documentElement.scrollTop||0;if(v==='team'&&currentView==='profile'&&clearTeamSearchOnReturn){let input=document.getElementById('searchPlayers');if(input)input.value='';clearTeamSearchOnReturn=false;viewScrollPositions.team=0}if(changing&&!options.noHistory){viewHistory.push(currentView);forwardHistory=[];}currentView=v;document.querySelectorAll('.view').forEach(x=>x.classList.remove('active'));document.getElementById(v).classList.add('active');document.querySelectorAll('.nav button').forEach(x=>x.classList.toggle('active',x.dataset.view===(v==='profile'?'team':v)));if(v==='team'){syncRosterUI();renderPlayers()}if(v==='attendance')renderAttendance();if(v==='matchReports')renderMatchReports();if(v==='plans')renderPlans();if(v==='stats')renderStats();if(v==='more'){teamNameInput.value=db.team.name;teamCategoryInput.value=db.team.category}if(v==='home')renderHome();updateBackButton();if(changing){const target=v==='more'?0:(viewScrollPositions[v]||0);requestAnimationFrame(()=>window.scrollTo(0,target))}return changing}
+function showView(v,options={}){if(!document.getElementById(v))return;if(v===currentView){applyViewChange(v,options);return}const direction=options.direction||(options.noHistory?'back':'forward');document.documentElement.dataset.navDirection=direction;const run=()=>applyViewChange(v,options);if(document.startViewTransition&&!window.matchMedia('(prefers-reduced-motion: reduce)').matches){document.startViewTransition(run)}else{run();const app=document.querySelector('.app');if(app){app.classList.remove('cb-fallback-in');void app.offsetWidth;app.classList.add('cb-fallback-in');setTimeout(()=>app.classList.remove('cb-fallback-in'),340)}}}
+function backView(){if(!viewHistory.length)return;forwardHistory.push(currentView);let previous=viewHistory.pop();showView(previous,{noHistory:true,direction:'back'});updateBackButton()}
+function forwardView(){if(!forwardHistory.length)return;viewHistory.push(currentView);let next=forwardHistory.pop();showView(next,{noHistory:true,direction:'forward'});updateBackButton()}
 function navigateBySwipe(direction){if(document.getElementById('modalBg')?.classList.contains('show'))return;if(direction==='back')backView();else forwardView()}
 function pinBottomNavigation(){
  const nav=document.querySelector('.nav');if(!nav)return;
